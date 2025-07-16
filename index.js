@@ -45,7 +45,7 @@ app.get('/db-test', async (req, res) => {
 // 🔹 NEW: Get all users
 app.get('/api/users', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM users ORDER BY id ASC');
+    const result = await pool.query('SELECT * FROM customers ORDER BY id ASC');
     res.json(result.rows);
   } catch (err) {
     console.error('Error fetching users:', err);
