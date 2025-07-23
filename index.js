@@ -42,15 +42,16 @@ app.get("/api/users", async (req, res) => {
 
 // Add new customer
 app.post("/api/users", async (req, res) => {
-  const { name, email, address, zipCode } = req.body;
-  if (!name || !email || !address || !zipCode) {
-    return res.status(400).send("All fields required");
+  const { name, email, address, state, zipCode } = req.body;
+
+  if (!name || !email || !address) {
+    return res.status(400).send("Name, email, and address are required");
   }
 
   try {
     const result = await pool.query(
-      "INSERT INTO customers (name, email, address, zip_code) VALUES ($1, $2, $3, $4) RETURNING *",
-      [name, email, address, zipCode]
+      "INSERT INTO customers (name, email, address, state, zip_code) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [name, email, address, state, zipCode]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
