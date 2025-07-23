@@ -42,8 +42,12 @@ app.get("/api/users", async (req, res) => {
 
 // Add new customer
 app.post("/api/users", async (req, res) => {
-  const { name, email, address, state, zipCode } = req.body;
+  const { name, email, address, state = "", zipCode = "" } = req.body;
 
+  // Log received body for debugging
+  console.log("Received POST payload:", req.body);
+
+  // Validate only required fields
   if (!name || !email || !address) {
     return res.status(400).send("Name, email, and address are required");
   }
@@ -55,8 +59,8 @@ app.post("/api/users", async (req, res) => {
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error("Error adding customer:", err);
-    res.status(500).send("Error adding customer");
+    console.error("❌ Error adding customer:", err);
+    res.status(500).send("Server error: Failed to add customer");
   }
 });
 
